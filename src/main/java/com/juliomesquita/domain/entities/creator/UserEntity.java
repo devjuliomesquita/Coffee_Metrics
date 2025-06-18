@@ -15,6 +15,8 @@ public class UserEntity extends PanacheEntity {
    @Enumerated(EnumType.STRING)
    private UserStatus status;
 
+   @MapsId()
    @OneToOne(mappedBy = "user")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 }

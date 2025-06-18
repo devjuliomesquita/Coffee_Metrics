@@ -1,6 +1,7 @@
 package com.juliomesquita.domain.entities.recipe;
 
-import com.juliomesquita.domain.entities.creator.CreatorFavorites;
+import com.juliomesquita.domain.entities.creator.CreatorFavoritesEntity;
+import com.juliomesquita.domain.entities.creator.CreatorPostsEntity;
 import com.juliomesquita.domain.enums.GrindingType;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
@@ -35,11 +36,15 @@ public class RecipeAggregate extends PanacheEntity {
    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private NotesEntity notes;
 
+   @ManyToMany(mappedBy = "recipes")
+   private Set<CreatorFavoritesEntity> favorites;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "post_id", referencedColumnName = "id")
+   private CreatorPostsEntity post;
+
+
    private OffsetDateTime createdAt;
 
    private OffsetDateTime updatedAt;
-
-   @ManyToMany(mappedBy = "recipes")
-   private Set<CreatorFavorites> favorites;
-
 }
