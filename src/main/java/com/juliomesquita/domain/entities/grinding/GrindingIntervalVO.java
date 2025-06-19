@@ -7,4 +7,7 @@ public record GrindingIntervalVO(
     Integer clickInitial,
     Integer clickFinal
 ) {
+   public static GrindingIntervalVO create(final Integer clickInitial, final Integer clickFinal) {
+      return new GrindingIntervalVO(clickInitial, clickFinal);
+   }
 }

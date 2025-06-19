@@ -24,10 +24,20 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 
-   @OneToMany(mappedBy = "notes", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+   @ManyToMany
+   @JoinTable(
+       name = "tb_notes_coffees",
+       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id"),
+       inverseJoinColumns = @JoinColumn(name = "coffee_id", referencedColumnName = "id")
+   )
    private List<CoffeeAggregate> coffees;
 
-   @OneToMany(mappedBy = "notes", fetch = FetchType.LAZY)
+   @ManyToMany
+   @JoinTable(
+       name = "tb_notes_grindings",
+       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id"),
+       inverseJoinColumns = @JoinColumn(name = "grinding_id", referencedColumnName = "id")
+   )
    private List<GrindingAggregate> grindings;
 
    public static NotesEntity create(
@@ -48,11 +58,20 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
       return this;
    }
 
-   public NotesEntity addCoffee(final CoffeeAggregate coffee) {
+   public NotesEntity addCoffee(final Long coffeeId) {
+      final var coffee = CoffeeAggregate.getInstanceOnlyId(coffeeId);
       final boolean contains = this.coffees.contains(coffee);
       if (!contains) {
-         coffee.bindToNotes(this);
          this.coffees.add(coffee);
+      }
+      return this;
+   }
+
+   public NotesEntity addGrinding(final Long grindingId) {
+      final var grinding = GrindingAggregate.getInstanceOnlyId(grindingId);
+      final boolean contains = this.grindings.contains(grinding);
+      if (!contains) {
+         this.grindings.add(grinding);
       }
       return this;
    }

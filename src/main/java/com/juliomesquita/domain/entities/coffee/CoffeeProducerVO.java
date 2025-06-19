@@ -8,4 +8,7 @@ public record CoffeeProducerVO(
     String region,
     Integer altitude
 ) {
+   public static CoffeeProducerVO create(final String nameProducer, final String region, final Integer altitude){
+      return new CoffeeProducerVO(nameProducer, region, altitude);
+   }
 }

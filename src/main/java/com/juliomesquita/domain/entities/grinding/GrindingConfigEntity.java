@@ -3,6 +3,7 @@ package com.juliomesquita.domain.entities.grinding;
 import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -26,4 +27,38 @@ public class GrindingConfigEntity extends BaseEntityWithGeneratedId {
        @AttributeOverride(name = "clickFinal", column = @Column(name = "click_final"))
    })
    private Map<String, GrindingIntervalVO> intervals;
+
+   public static GrindingConfigEntity create(final Integer clicks, final Long grindingId){
+      final var intervals = new HashMap<String, GrindingIntervalVO>();
+      final var grinding = GrindingAggregate.getInstanceOnlyId(grindingId);
+
+      return new GrindingConfigEntity(clicks, grinding, intervals);
+   }
+
+   public GrindingConfigEntity addIntervals(final String categoryName, final GrindingIntervalVO interval){
+      this.intervals.put(categoryName, interval);
+
+      return this;
+   }
+
+   private GrindingConfigEntity(final Integer clicks, final GrindingAggregate grinding, final Map<String, GrindingIntervalVO> intervals) {
+      this.clicks = clicks;
+      this.grinding = grinding;
+      this.intervals = intervals;
+   }
+
+   protected GrindingConfigEntity() {
+   }
+
+   public Integer getClicks() {
+      return clicks;
+   }
+
+   public GrindingAggregate getGrinding() {
+      return grinding;
+   }
+
+   public Map<String, GrindingIntervalVO> getIntervals() {
+      return intervals;
+   }
 }
