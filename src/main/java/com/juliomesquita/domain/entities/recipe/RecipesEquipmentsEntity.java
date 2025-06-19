@@ -13,7 +13,9 @@ public class RecipesEquipmentsEntity extends BaseEntityWithGeneratedId {
    private RecipeAggregate recipe;
 
    @Enumerated(EnumType.STRING)
+   @Column(name = "equipment", nullable = false)
    private EquipmentType equipment;
 
+   @Column(name = "mandatory", nullable = false)
    private Boolean mandatory;
 }

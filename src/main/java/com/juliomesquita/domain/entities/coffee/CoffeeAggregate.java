@@ -36,4 +36,15 @@ public class CoffeeAggregate extends BaseEntityWithGeneratedId {
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "notes_id", referencedColumnName = "id")
    private NotesEntity notes;
+
+
+   public CoffeeAggregate bindToNotes(final NotesEntity notes){
+      this.notes = notes;
+      return this;
+   }
+
+   public CoffeeAggregate bindToRoasting(final CoffeeRoastingEntity roasting){
+      this.roasting = roasting;
+      return this;
+   }
 }

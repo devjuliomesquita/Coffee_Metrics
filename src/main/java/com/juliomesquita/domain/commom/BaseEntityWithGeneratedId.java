@@ -12,7 +12,7 @@ public abstract class BaseEntityWithGeneratedId extends PanacheEntityBase {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id", unique = true, nullable = false)
-   private Long id;
+   protected Long id;
 
    @Version
    private Long version;

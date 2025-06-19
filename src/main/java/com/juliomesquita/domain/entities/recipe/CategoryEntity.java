@@ -9,6 +9,7 @@ import java.util.Set;
 @Table(name = "tb_category")
 public class CategoryEntity extends BaseEntityWithGeneratedId {
 
+   @Column(name = "description", nullable = false)
    private String description;
 
    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
