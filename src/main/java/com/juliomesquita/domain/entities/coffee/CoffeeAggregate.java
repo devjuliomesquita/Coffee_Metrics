@@ -1,15 +1,15 @@
 package com.juliomesquita.domain.entities.coffee;
 
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.recipe.NotesEntity;
 import com.juliomesquita.domain.enums.RoastingLevel;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "tb_coffee")
-public class CoffeeAggregate extends PanacheEntity {
+public class CoffeeAggregate extends BaseEntityWithGeneratedId {
 
    private String name;
 

@@ -1,13 +1,13 @@
 package com.juliomesquita.domain.entities.recipe;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_category")
-public class CategoryEntity extends PanacheEntity {
+public class CategoryEntity extends BaseEntityWithGeneratedId {
 
    private String description;
 

@@ -1,14 +1,13 @@
 package com.juliomesquita.domain.entities.recipe;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_subcategory")
-public class SubCategoryEntity extends PanacheEntity {
+public class SubCategoryEntity extends BaseEntityWithGeneratedId {
 
    private String description;
 
@@ -20,5 +19,5 @@ public class SubCategoryEntity extends PanacheEntity {
    private Set<TagEntity> tags;
 
    @OneToMany(mappedBy = "subcategory", fetch = FetchType.LAZY)
-   private List<RecipeAggregate> recipes;
+   private Set<RecipeAggregate> recipes;
 }

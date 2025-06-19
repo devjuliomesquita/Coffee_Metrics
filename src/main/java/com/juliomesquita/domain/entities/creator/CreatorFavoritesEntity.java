@@ -1,20 +1,20 @@
 package com.juliomesquita.domain.entities.creator;
 
+import com.juliomesquita.domain.commom.BaseEntityWithManualId;
+import com.juliomesquita.domain.entities.grinding.GrindingAggregate;
 import com.juliomesquita.domain.entities.recipe.RecipeAggregate;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_creator_favorites")
-public class CreatorFavoritesEntity extends PanacheEntity {
+public class CreatorFavoritesEntity extends BaseEntityWithManualId {
 
    @MapsId
    @OneToOne(mappedBy = "favorites")
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
-
 
    @ManyToMany
    @JoinTable(
@@ -26,4 +26,8 @@ public class CreatorFavoritesEntity extends PanacheEntity {
 
    @OneToOne(mappedBy = "favorites", fetch = FetchType.LAZY)
    private UnitsSystemEntity unitsSystem;
+
+   @ManyToOne
+   @JoinColumn(name = "grinding_id", referencedColumnName = "id")
+   private GrindingAggregate grinding;
 }

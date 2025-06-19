@@ -1,11 +1,14 @@
 package com.juliomesquita.domain.entities.recipe;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.*;
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_recipe_steps")
-public class RecipeStepsEntity extends PanacheEntity {
+public class RecipeStepsEntity extends BaseEntityWithGeneratedId {
 
    private Integer executionOrder;
 

@@ -1,11 +1,11 @@
 package com.juliomesquita.domain.entities.creator;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_units_system")
-public class UnitsSystemEntity extends PanacheEntity {
+public class UnitsSystemEntity extends BaseEntityWithGeneratedId {
 
    private String weight;
 

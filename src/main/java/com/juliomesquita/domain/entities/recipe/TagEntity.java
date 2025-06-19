@@ -1,6 +1,6 @@
 package com.juliomesquita.domain.entities.recipe;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_tag")
-public class TagEntity extends PanacheEntity {
+public class TagEntity extends BaseEntityWithGeneratedId {
 
    private String description;
 

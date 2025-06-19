@@ -1,7 +1,7 @@
 package com.juliomesquita.domain.entities.creator;
 
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.recipe.RecipeAggregate;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_creator_posts")
-public class CreatorPostsEntity extends PanacheEntity {
+public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
 
    private String title;
 

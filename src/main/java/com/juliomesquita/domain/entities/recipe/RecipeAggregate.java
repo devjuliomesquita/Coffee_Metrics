@@ -1,17 +1,16 @@
 package com.juliomesquita.domain.entities.recipe;
 
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.creator.CreatorFavoritesEntity;
 import com.juliomesquita.domain.entities.creator.CreatorPostsEntity;
 import com.juliomesquita.domain.enums.GrindingType;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
-import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_recipes")
-public class RecipeAggregate extends PanacheEntity {
+public class RecipeAggregate extends BaseEntityWithGeneratedId {
 
    private String description;
 
@@ -36,15 +35,14 @@ public class RecipeAggregate extends PanacheEntity {
    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private NotesEntity notes;
 
-   @ManyToMany(mappedBy = "recipes")
+   @ManyToMany(mappedBy = "recipes", fetch = FetchType.LAZY)
    private Set<CreatorFavoritesEntity> favorites;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "post_id", referencedColumnName = "id")
    private CreatorPostsEntity post;
 
+   @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY)
+   private Set<RecipesEquipmentsEntity> equipments;
 
-   private OffsetDateTime createdAt;
-
-   private OffsetDateTime updatedAt;
 }

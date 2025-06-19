@@ -1,12 +1,12 @@
 package com.juliomesquita.domain.entities.creator;
 
+import com.juliomesquita.domain.commom.BaseEntityWithManualId;
 import com.juliomesquita.domain.enums.UserStatus;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_users")
-public class UserEntity extends PanacheEntity {
+public class UserEntity extends BaseEntityWithManualId {
 
    private String email;
 

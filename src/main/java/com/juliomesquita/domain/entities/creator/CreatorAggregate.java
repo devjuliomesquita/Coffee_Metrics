@@ -1,14 +1,14 @@
 package com.juliomesquita.domain.entities.creator;
 
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.recipe.NotesEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name= "tb_creator")
-public class CreatorAggregate extends PanacheEntity {
+public class CreatorAggregate extends BaseEntityWithGeneratedId {
 
    private String nome;
 

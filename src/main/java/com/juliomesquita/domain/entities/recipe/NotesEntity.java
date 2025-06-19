@@ -1,15 +1,16 @@
 package com.juliomesquita.domain.entities.recipe;
 
+import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.coffee.CoffeeAggregate;
 import com.juliomesquita.domain.entities.creator.CreatorAggregate;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.juliomesquita.domain.entities.grinding.GrindingAggregate;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_notes")
-public class NotesEntity extends PanacheEntity {
+public class NotesEntity extends BaseEntityWithGeneratedId {
 
    private String description;
 
@@ -23,4 +24,7 @@ public class NotesEntity extends PanacheEntity {
 
    @OneToMany(mappedBy = "notes", fetch = FetchType.LAZY)
    private List<CoffeeAggregate> coffees;
+
+   @OneToMany(mappedBy = "notes", fetch = FetchType.LAZY)
+   private List<GrindingAggregate> grindings;
 }
