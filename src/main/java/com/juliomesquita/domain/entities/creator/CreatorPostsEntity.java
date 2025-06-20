@@ -27,9 +27,13 @@ public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
    private List<RecipeAggregate> recipes;
 
+   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   private List<PostCommentsEntity> comments;
+
    public static CreatorPostsEntity create(final String title, final String description, final String fileUrl) {
       final var recipes = new ArrayList<RecipeAggregate>();
-      return new CreatorPostsEntity(title, description, fileUrl, null, recipes);
+      final var comments = new ArrayList<PostCommentsEntity>();
+      return new CreatorPostsEntity(title, description, fileUrl, null, recipes, comments);
    }
 
    public CreatorPostsEntity update(final String title, final String description, final String fileUrl) {
@@ -45,18 +49,28 @@ public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
       return this;
    }
 
+   public static CreatorPostsEntity getInstanceOnlyId(final Long id) {
+      return new CreatorPostsEntity(id);
+   }
+
    private CreatorPostsEntity(
        final String title,
        final String description,
        final String fileUrl,
        final CreatorAggregate creator,
-       final List<RecipeAggregate> recipes
+       final List<RecipeAggregate> recipes,
+       final List<PostCommentsEntity> comments
    ) {
       this.title = title;
       this.description = description;
       this.fileUrl = fileUrl;
       this.creator = creator;
       this.recipes = recipes;
+      this.comments = comments;
+   }
+
+   private CreatorPostsEntity(final Long id) {
+      this.id = id;
    }
 
    protected CreatorPostsEntity() {
@@ -80,5 +94,9 @@ public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
 
    public List<RecipeAggregate> getRecipes() {
       return recipes;
+   }
+
+   public List<PostCommentsEntity> getComments() {
+      return comments;
    }
 }
