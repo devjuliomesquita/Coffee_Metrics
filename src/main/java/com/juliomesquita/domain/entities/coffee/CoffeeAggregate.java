@@ -44,7 +44,7 @@ public class CoffeeAggregate extends BaseEntityWithGeneratedId {
    private CoffeeProducerVO producer;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-   @JoinColumn(name = "roasting_id", referencedColumnName = "id")
+   @JoinColumn(name = "roasting_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_coffee_roasting"))
    private CoffeeRoastingEntity roasting;
 
    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "coffees")

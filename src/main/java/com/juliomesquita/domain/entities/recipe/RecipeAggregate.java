@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_recipes")
+@Table(
+    name = "tb_recipes",
+    indexes = {@Index(name = "idx_subcategory_id", columnList = "subcategory_id")}
+)
 public class RecipeAggregate extends BaseEntityWithGeneratedId {
 
    @Column(name = "description", nullable = false)
@@ -37,8 +40,8 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
    private Set<RecipeStepsEntity> steps;
 
    @ManyToOne
-   @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
-   private SubCategoryEntity subCategory;
+   @JoinColumn(name = "subcategory_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_recipe_subcategory"))
+   private SubcategoryEntity subcategory;
 
    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private NotesEntity notes;
@@ -47,7 +50,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
    private Set<CreatorFavoritesEntity> favorites;
 
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "post_id", referencedColumnName = "id")
+   @JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_recipe_post"))
    private CreatorPostsEntity post;
 
    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY)
@@ -61,7 +64,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       final var steps = new HashSet<RecipeStepsEntity>();
       final var favorites = new HashSet<CreatorFavoritesEntity>();
       final var equipments = new HashSet<RecipesEquipmentsEntity>();
-      final var subCategoryEntity = SubCategoryEntity.getInstanceOnlyId(subcategoryId);
+      final var subCategoryEntity = SubcategoryEntity.getInstanceOnlyId(subcategoryId);
       final var proportion = calculateProportion(gramsOfCoffee, gramsOfWater);
 
       return new RecipeAggregate(
@@ -80,7 +83,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       this.extractionTime = extractionTime;
       this.gramsOfWater = gramsOfWater;
       this.proportion = calculateProportion(gramsOfCoffee, gramsOfWater);
-      this.subCategory = SubCategoryEntity.getInstanceOnlyId(subcategoryId);
+      this.subcategory = SubcategoryEntity.getInstanceOnlyId(subcategoryId);
 
       return this;
    }
@@ -103,7 +106,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
    }
 
    public RecipeAggregate addSubcategory(final Long subcategoryId) {
-      this.subCategory = SubCategoryEntity.getInstanceOnlyId(subcategoryId);
+      this.subcategory = SubcategoryEntity.getInstanceOnlyId(subcategoryId);
       return this;
    }
 
@@ -113,7 +116,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       return this;
    }
 
-   public RecipeAggregate addEquipments(final List<RecipesEquipmentsEntity> equipments){
+   public RecipeAggregate addEquipments(final List<RecipesEquipmentsEntity> equipments) {
       equipments.forEach(this::addEquipment);
       return this;
    }
@@ -153,7 +156,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
        final Integer extractionTime,
        final Integer gramsOfWater,
        final Set<RecipeStepsEntity> steps,
-       final SubCategoryEntity subCategory,
+       final SubcategoryEntity subcategory,
        final NotesEntity notes,
        final Set<CreatorFavoritesEntity> favorites,
        final CreatorPostsEntity post,
@@ -166,7 +169,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       this.extractionTime = extractionTime;
       this.gramsOfWater = gramsOfWater;
       this.steps = steps;
-      this.subCategory = subCategory;
+      this.subcategory = subcategory;
       this.notes = notes;
       this.favorites = favorites;
       this.post = post;
@@ -208,8 +211,8 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       return steps;
    }
 
-   public SubCategoryEntity getSubCategory() {
-      return subCategory;
+   public SubcategoryEntity getSubcategory() {
+      return subcategory;
    }
 
    public NotesEntity getNotes() {

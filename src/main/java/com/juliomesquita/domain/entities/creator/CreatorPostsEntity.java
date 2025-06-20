@@ -21,7 +21,7 @@ public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
    private String fileUrl;
 
    @ManyToOne
-   @JoinColumn(name = "creator_id", referencedColumnName = "id")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_post_creator"))
    private CreatorAggregate creator;
 
    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)

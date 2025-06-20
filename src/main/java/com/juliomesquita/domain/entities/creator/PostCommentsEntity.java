@@ -14,15 +14,15 @@ public class PostCommentsEntity extends BaseEntityWithGeneratedId {
    private String comment;
 
    @ManyToOne
-   @JoinColumn(name = "creator_id", referencedColumnName = "id")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_comments_creator"))
    private CreatorAggregate creator;
 
    @ManyToOne
-   @JoinColumn(name = "post_id", referencedColumnName = "id")
+   @JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_comments_post"))
    private CreatorPostsEntity post;
 
    @ManyToOne
-   @JoinColumn(name = "comment_bind_id", referencedColumnName = "id")
+   @JoinColumn(name = "comment_bind_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_comments_comment_bind"))
    private PostCommentsEntity commentBind;
 
    @OneToMany(mappedBy = "commentBind", cascade = CascadeType.ALL, orphanRemoval = true)

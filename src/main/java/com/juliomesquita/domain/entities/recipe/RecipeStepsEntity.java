@@ -17,7 +17,7 @@ public class RecipeStepsEntity extends BaseEntityWithGeneratedId {
    private Integer durationTime;
 
    @ManyToOne
-   @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+   @JoinColumn(name = "recipe_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_steps_recipe"))
    private RecipeAggregate recipe;
 
    public static RecipeStepsEntity create(final Integer executionOrder, final String description, final Integer durationTime) {

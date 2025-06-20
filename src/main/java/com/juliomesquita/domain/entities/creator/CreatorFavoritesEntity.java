@@ -14,14 +14,14 @@ public class CreatorFavoritesEntity extends BaseEntityWithManualId {
 
    @MapsId
    @OneToOne
-   @JoinColumn(name = "creator_id", referencedColumnName = "id")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_favorites_creator"))
    private CreatorAggregate creator;
 
    @ManyToMany
    @JoinTable(
        name = "tb_creator_favorites_recipes",
-       joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"),
-       inverseJoinColumns = @JoinColumn(name = "creator_favorite_id", referencedColumnName = "id")
+       joinColumns = @JoinColumn(name = "recipe_id", foreignKey = @ForeignKey(name = "fk_favorites_recipes_recipe_id")),
+       inverseJoinColumns = @JoinColumn(name = "creator_favorite_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_favorites_recipes_favorite_id"))
    )
    private Set<RecipeAggregate> recipes;
 
@@ -29,7 +29,7 @@ public class CreatorFavoritesEntity extends BaseEntityWithManualId {
    private UnitsSystemEntity unitsSystem;
 
    @ManyToOne
-   @JoinColumn(name = "grinding_id", referencedColumnName = "id")
+   @JoinColumn(name = "grinding_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_favorites_grinding"))
    private GrindingAggregate grinding;
 
    public static CreatorFavoritesEntity create(final Long creatorId) {

@@ -11,8 +11,8 @@ public class TagEntity extends BaseEntityWithGeneratedId {
    private String description;
 
    @ManyToOne
-   @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
-   private SubCategoryEntity subCategory;
+   @JoinColumn(name = "subcategory_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tag_subcategory"))
+   private SubcategoryEntity subcategory;
 
    public static TagEntity create(final String description){
       return new TagEntity(description, null);
@@ -23,14 +23,14 @@ public class TagEntity extends BaseEntityWithGeneratedId {
       return this;
    }
 
-   public TagEntity bindToSubcategory(final SubCategoryEntity subCategory){
-      this.subCategory = subCategory;
+   public TagEntity bindToSubcategory(final SubcategoryEntity subCategory){
+      this.subcategory = subCategory;
       return this;
    }
 
-   public TagEntity(final String description, final SubCategoryEntity subCategory) {
+   public TagEntity(final String description, final SubcategoryEntity subcategory) {
       this.description = description;
-      this.subCategory = subCategory;
+      this.subcategory = subcategory;
    }
 
    public TagEntity() {
@@ -40,7 +40,7 @@ public class TagEntity extends BaseEntityWithGeneratedId {
       return description;
    }
 
-   public SubCategoryEntity getSubCategory() {
-      return subCategory;
+   public SubcategoryEntity getSubcategory() {
+      return subcategory;
    }
 }

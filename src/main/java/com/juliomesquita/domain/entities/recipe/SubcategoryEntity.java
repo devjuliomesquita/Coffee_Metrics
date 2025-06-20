@@ -8,13 +8,13 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_subcategory")
-public class SubCategoryEntity extends BaseEntityWithGeneratedId {
+public class SubcategoryEntity extends BaseEntityWithGeneratedId {
 
    @Column(name = "description", nullable = false)
    private String description;
 
    @ManyToOne
-   @JoinColumn(name = "category_id", referencedColumnName = "id")
+   @JoinColumn(name = "category_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_subcategory_category"))
    private CategoryEntity category;
 
    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -23,31 +23,31 @@ public class SubCategoryEntity extends BaseEntityWithGeneratedId {
    @OneToMany(mappedBy = "subcategory", fetch = FetchType.LAZY)
    private Set<RecipeAggregate> recipes;
 
-   public static SubCategoryEntity create(final String description, final Long categoryId) {
+   public static SubcategoryEntity create(final String description, final Long categoryId) {
       final var category = CategoryEntity.getInstanceOnlyId(categoryId);
       final var tags = new HashSet<TagEntity>();
       final var recipes = new HashSet<RecipeAggregate>();
 
-      return new SubCategoryEntity(description, category, tags, recipes);
+      return new SubcategoryEntity(description, category, tags, recipes);
    }
 
-   public SubCategoryEntity update(final String description) {
+   public SubcategoryEntity update(final String description) {
       this.description = description;
       return this;
    }
 
-   public SubCategoryEntity addTag(final TagEntity tag) {
+   public SubcategoryEntity addTag(final TagEntity tag) {
       tag.bindToSubcategory(this);
       this.tags.add(tag);
 
       return this;
    }
 
-   public static SubCategoryEntity getInstanceOnlyId(final Long id) {
-      return new SubCategoryEntity(id);
+   public static SubcategoryEntity getInstanceOnlyId(final Long id) {
+      return new SubcategoryEntity(id);
    }
 
-   private SubCategoryEntity(
+   private SubcategoryEntity(
        final String description,
        final CategoryEntity category,
        final Set<TagEntity> tags,
@@ -59,11 +59,11 @@ public class SubCategoryEntity extends BaseEntityWithGeneratedId {
       this.recipes = recipes;
    }
 
-   private SubCategoryEntity(Long id) {
+   private SubcategoryEntity(Long id) {
       this.id = id;
    }
 
-   protected SubCategoryEntity() {
+   protected SubcategoryEntity() {
    }
 
    public String getDescription() {

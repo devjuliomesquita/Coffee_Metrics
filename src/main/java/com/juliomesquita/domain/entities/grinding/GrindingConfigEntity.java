@@ -13,7 +13,7 @@ public class GrindingConfigEntity extends BaseEntityWithGeneratedId {
    private Integer clicks;
 
    @OneToOne
-   @JoinColumn(name = "grinding_id", referencedColumnName = "id")
+   @JoinColumn(name = "grinding_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_config_grinding"))
    private GrindingAggregate grinding;
 
    @ElementCollection

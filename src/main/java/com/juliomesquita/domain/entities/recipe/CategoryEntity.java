@@ -14,10 +14,10 @@ public class CategoryEntity extends BaseEntityWithGeneratedId {
    private String description;
 
    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   private Set<SubCategoryEntity> subCategories;
+   private Set<SubcategoryEntity> subCategories;
 
    public static CategoryEntity create(final String description) {
-      final var subcategory = new HashSet<SubCategoryEntity>();
+      final var subcategory = new HashSet<SubcategoryEntity>();
       return new CategoryEntity(description, subcategory);
    }
 
@@ -30,7 +30,7 @@ public class CategoryEntity extends BaseEntityWithGeneratedId {
       return new CategoryEntity(id);
    }
 
-   private CategoryEntity(final String description, final Set<SubCategoryEntity> subCategories) {
+   private CategoryEntity(final String description, final Set<SubcategoryEntity> subCategories) {
       this.description = description;
       this.subCategories = subCategories;
    }
@@ -46,7 +46,7 @@ public class CategoryEntity extends BaseEntityWithGeneratedId {
       return description;
    }
 
-   public Set<SubCategoryEntity> getSubCategories() {
+   public Set<SubcategoryEntity> getSubCategories() {
       return subCategories;
    }
 }

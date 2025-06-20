@@ -21,7 +21,7 @@ public class UnitsSystemEntity extends BaseEntityWithGeneratedId {
 
    @MapsId
    @OneToOne
-   @JoinColumn(name = "favorite_id", referencedColumnName = "id")
+   @JoinColumn(name = "favorite_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_units_system_favorites"))
    private CreatorFavoritesEntity favorites;
 
    public static UnitsSystemEntity create(

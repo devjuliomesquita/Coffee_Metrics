@@ -17,26 +17,26 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
    private String description;
 
    @OneToOne
-   @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+   @JoinColumn(name = "recipe_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_recipe"))
    private RecipeAggregate recipe;
 
    @ManyToOne
-   @JoinColumn(name = "creator_id", referencedColumnName = "id")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_creator"))
    private CreatorAggregate creator;
 
    @ManyToMany
    @JoinTable(
        name = "tb_notes_coffees",
-       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id"),
-       inverseJoinColumns = @JoinColumn(name = "coffee_id", referencedColumnName = "id")
+       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_coffees_notes_id")),
+       inverseJoinColumns = @JoinColumn(name = "coffee_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_coffees_coffee_id"))
    )
    private List<CoffeeAggregate> coffees;
 
    @ManyToMany
    @JoinTable(
        name = "tb_notes_grindings",
-       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id"),
-       inverseJoinColumns = @JoinColumn(name = "grinding_id", referencedColumnName = "id")
+       joinColumns = @JoinColumn(name = "notes_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_grindings_notes_id")),
+       inverseJoinColumns = @JoinColumn(name = "grinding_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_notes_grindings_grinding_id"))
    )
    private List<GrindingAggregate> grindings;
 

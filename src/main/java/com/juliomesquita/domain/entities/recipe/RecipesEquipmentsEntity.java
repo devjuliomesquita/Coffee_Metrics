@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class RecipesEquipmentsEntity extends BaseEntityWithGeneratedId {
 
    @ManyToOne
-   @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+   @JoinColumn(name = "recipe_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_equipment_recipe"))
    private RecipeAggregate recipe;
 
    @Enumerated(EnumType.STRING)

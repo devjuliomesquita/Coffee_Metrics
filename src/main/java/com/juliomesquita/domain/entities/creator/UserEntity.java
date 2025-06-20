@@ -20,7 +20,7 @@ public class UserEntity extends BaseEntityWithManualId {
 
    @MapsId()
    @OneToOne
-   @JoinColumn(name = "creator_id", referencedColumnName = "id")
+   @JoinColumn(name = "creator_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_users_creator"))
    private CreatorAggregate creator;
 
    public static UserEntity create(final String email, final String password) {

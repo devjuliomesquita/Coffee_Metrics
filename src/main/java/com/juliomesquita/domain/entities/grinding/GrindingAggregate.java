@@ -5,7 +5,6 @@ import com.juliomesquita.domain.entities.creator.CreatorFavoritesEntity;
 import com.juliomesquita.domain.entities.recipe.NotesEntity;
 import jakarta.persistence.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Set;
 public class GrindingAggregate extends BaseEntityWithGeneratedId {
 
    @Column(name = "brand", nullable = false)
-   private Spring brand;
+   private String brand;
 
    @Column(name = "model")
    private String model;
@@ -34,14 +33,14 @@ public class GrindingAggregate extends BaseEntityWithGeneratedId {
    private Set<CreatorFavoritesEntity> favorites;
 
 
-   public static GrindingAggregate create(final Spring brand, final String model, final Integer clicks) {
+   public static GrindingAggregate create(final String brand, final String model, final Integer clicks) {
       final var notes = new ArrayList<NotesEntity>();
       final var favorites = new HashSet<CreatorFavoritesEntity>();
 
       return new GrindingAggregate(brand, model, clicks, null, notes, favorites);
    }
 
-   public GrindingAggregate update(final Spring brand, final String model, final Integer clicks) {
+   public GrindingAggregate update(final String brand, final String model, final Integer clicks) {
       this.brand = brand;
       this.model = model;
       this.clicks = clicks;
@@ -58,7 +57,7 @@ public class GrindingAggregate extends BaseEntityWithGeneratedId {
    }
 
    private GrindingAggregate(
-       final Spring brand,
+       final String brand,
        final String model,
        final Integer clicks,
        final GrindingConfigEntity interval,
@@ -76,7 +75,7 @@ public class GrindingAggregate extends BaseEntityWithGeneratedId {
    protected GrindingAggregate() {
    }
 
-   public Spring getBrand() {
+   public String getBrand() {
       return brand;
    }
 
