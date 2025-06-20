@@ -3,6 +3,7 @@ package com.juliomesquita.domain.entities.recipe;
 import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,4 +15,38 @@ public class CategoryEntity extends BaseEntityWithGeneratedId {
 
    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    private Set<SubCategoryEntity> subCategories;
+
+   public static CategoryEntity create(final String description) {
+      final var subcategory = new HashSet<SubCategoryEntity>();
+      return new CategoryEntity(description, subcategory);
+   }
+
+   public CategoryEntity update(final String description) {
+      this.description = description;
+      return this;
+   }
+
+   public static CategoryEntity getInstanceOnlyId(final Long id){
+      return new CategoryEntity(id);
+   }
+
+   private CategoryEntity(final String description, final Set<SubCategoryEntity> subCategories) {
+      this.description = description;
+      this.subCategories = subCategories;
+   }
+
+   private CategoryEntity(final Long id) {
+      this.id = id;
+   }
+
+   protected CategoryEntity() {
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public Set<SubCategoryEntity> getSubCategories() {
+      return subCategories;
+   }
 }

@@ -55,12 +55,8 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
 
 
    public static RecipeAggregate create(
-       final String description,
-       final Integer gramsOfCoffee,
-       final GrindingType grinding,
-       final Integer extractionTime,
-       final Integer gramsOfWater,
-       final Long subcategoryId
+       final String description, final Integer gramsOfCoffee, final GrindingType grinding,
+       final Integer extractionTime, final Integer gramsOfWater, final Long subcategoryId
    ) {
       final var steps = new HashSet<RecipeStepsEntity>();
       final var favorites = new HashSet<CreatorFavoritesEntity>();
@@ -75,12 +71,8 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
    }
 
    public RecipeAggregate update(
-       final String description,
-       final Integer gramsOfCoffee,
-       final GrindingType grinding,
-       final Integer extractionTime,
-       final Integer gramsOfWater,
-       final Long subcategoryId
+       final String description, final Integer gramsOfCoffee, final GrindingType grinding,
+       final Integer extractionTime, final Integer gramsOfWater, final Long subcategoryId
    ) {
       this.description = description;
       this.gramsOfCoffee = gramsOfCoffee;
@@ -110,10 +102,32 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       this.steps.add(step);
    }
 
+   public RecipeAggregate addSubcategory(final Long subcategoryId) {
+      this.subCategory = SubCategoryEntity.getInstanceOnlyId(subcategoryId);
+      return this;
+   }
+
    public RecipeAggregate addNotes(final NotesEntity notes) {
       notes.bindToRecipe(this);
       this.notes = notes;
       return this;
+   }
+
+   public RecipeAggregate addEquipments(final List<RecipesEquipmentsEntity> equipments){
+      equipments.forEach(this::addEquipment);
+      return this;
+   }
+
+   public void addEquipment(final RecipesEquipmentsEntity equipment) {
+      final boolean contains = this.equipments.contains(equipment);
+      if (!contains) {
+         equipment.bindToRecipe(this);
+         this.equipments.add(equipment);
+         return;
+      }
+      this.equipments.remove(equipment);
+      equipment.bindToRecipe(this);
+      this.equipments.add(equipment);
    }
 
    private static String calculateProportion(final int gramsOfCoffee, final int gramsOfWater) {
@@ -127,7 +141,7 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       return "1:" + roundedRatio;
    }
 
-   public static RecipeAggregate getInstanceOnlyId(final Long id){
+   public static RecipeAggregate getInstanceOnlyId(final Long id) {
       return new RecipeAggregate(id);
    }
 

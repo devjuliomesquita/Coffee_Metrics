@@ -20,7 +20,7 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
    private RecipeAggregate recipe;
 
-   @OneToOne(mappedBy = "notes")
+   @ManyToOne
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 
@@ -41,8 +41,9 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
    private List<GrindingAggregate> grindings;
 
    public static NotesEntity create(
-       final String description, final CreatorAggregate creator
+       final String description, final Long creatorId
    ) {
+      final var creator = CreatorAggregate.getInstanceOnlyId(creatorId);
       final var coffees = new ArrayList<CoffeeAggregate>();
       final var grindings = new ArrayList<GrindingAggregate>();
       return new NotesEntity(description, null, creator, coffees, grindings);

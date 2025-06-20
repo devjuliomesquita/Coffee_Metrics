@@ -5,7 +5,9 @@ import com.juliomesquita.domain.entities.recipe.NotesEntity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_creator")
@@ -35,16 +37,17 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
    private List<CreatorPostsEntity> posts;
 
-   @OneToOne(mappedBy = "creator", fetch = FetchType.LAZY)
-   private NotesEntity notes; //TODO transformar esse cara em n:n
+   @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
+   private Set<NotesEntity> notes;
 
    public static CreatorAggregate create(
        final String name, final String nickname, final String phone, final String region
    ) {
       final var posts = new ArrayList<CreatorPostsEntity>();
+      final var notes = new HashSet<NotesEntity>();
       final var regionVO = new RegionVO(region);
 
-      return new CreatorAggregate(name, nickname, phone, regionVO, null, null, posts, null);
+      return new CreatorAggregate(name, nickname, phone, regionVO, null, null, posts, notes);
    }
 
    public CreatorAggregate update(
@@ -82,7 +85,7 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
        final UserEntity user,
        final CreatorFavoritesEntity favorites,
        final List<CreatorPostsEntity> posts,
-       final NotesEntity notes
+       final Set<NotesEntity> notes
    ) {
       this.name = name;
       this.nickname = nickname;
@@ -129,7 +132,7 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
       return posts;
    }
 
-   public NotesEntity getNotes() {
+   public Set<NotesEntity> getNotes() {
       return notes;
    }
 }
