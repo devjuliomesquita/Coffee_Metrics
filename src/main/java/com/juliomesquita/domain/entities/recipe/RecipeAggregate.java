@@ -127,6 +127,10 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       return "1:" + roundedRatio;
    }
 
+   public static RecipeAggregate getInstanceOnlyId(final Long id){
+      return new RecipeAggregate(id);
+   }
+
    private RecipeAggregate(
        final String description,
        final Integer gramsOfCoffee,
@@ -153,6 +157,10 @@ public class RecipeAggregate extends BaseEntityWithGeneratedId {
       this.favorites = favorites;
       this.post = post;
       this.equipments = equipments;
+   }
+
+   private RecipeAggregate(final Long id) {
+      this.id = id;
    }
 
    protected RecipeAggregate() {

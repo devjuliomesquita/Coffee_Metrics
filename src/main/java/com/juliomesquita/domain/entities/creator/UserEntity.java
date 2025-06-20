@@ -27,6 +27,11 @@ public class UserEntity extends BaseEntityWithManualId {
       return new UserEntity(email, password, UserStatus.ACTIVE, null);
    }
 
+   public UserEntity inactive() {
+      this.status = UserStatus.INACTIVE;
+      return this;
+   }
+
    public UserEntity bindToCreator(final CreatorAggregate creator) {
       this.creator = creator;
 

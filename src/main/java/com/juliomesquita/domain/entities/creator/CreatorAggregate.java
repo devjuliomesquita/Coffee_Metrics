@@ -36,7 +36,7 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
    private List<CreatorPostsEntity> posts;
 
    @OneToOne(mappedBy = "creator", fetch = FetchType.LAZY)
-   private NotesEntity notes;
+   private NotesEntity notes; //TODO transformar esse cara em n:n
 
    public static CreatorAggregate create(
        final String name, final String nickname, final String phone, final String region
@@ -65,6 +65,15 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
       return this;
    }
 
+   public CreatorAggregate inactive(){
+      this.user.inactive();
+      return this;
+   }
+
+   public static CreatorAggregate getInstanceOnlyId(final Long id){
+      return new CreatorAggregate(id);
+   }
+
    private CreatorAggregate(
        final String name,
        final String nickname,
@@ -86,6 +95,10 @@ public class CreatorAggregate extends BaseEntityWithGeneratedId {
    }
 
    protected CreatorAggregate() {
+   }
+
+   private CreatorAggregate(final Long id) {
+      this.id = id;
    }
 
    public String getName() {
