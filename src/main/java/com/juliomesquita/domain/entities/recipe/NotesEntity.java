@@ -16,7 +16,7 @@ public class NotesEntity extends BaseEntityWithGeneratedId {
    @Column(name = "description", nullable = false)
    private String description;
 
-   @OneToOne(mappedBy = "notes")
+   @OneToOne
    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
    private RecipeAggregate recipe;
 

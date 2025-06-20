@@ -19,7 +19,7 @@ public class UserEntity extends BaseEntityWithManualId {
    private UserStatus status;
 
    @MapsId()
-   @OneToOne(mappedBy = "user")
+   @OneToOne
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 

@@ -20,7 +20,7 @@ public class UnitsSystemEntity extends BaseEntityWithGeneratedId {
    private String proportion;
 
    @MapsId
-   @OneToOne(mappedBy = "unitsSystem")
+   @OneToOne
    @JoinColumn(name = "favorite_id", referencedColumnName = "id")
    private CreatorFavoritesEntity favorites;
 

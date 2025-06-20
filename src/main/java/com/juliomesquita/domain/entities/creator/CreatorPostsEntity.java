@@ -20,14 +20,14 @@ public class CreatorPostsEntity extends BaseEntityWithGeneratedId {
    @Column(name = "file_url")
    private String fileUrl;
 
-   @ManyToOne()
+   @ManyToOne
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 
    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
    private List<RecipeAggregate> recipes;
 
-   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
    private List<PostCommentsEntity> comments;
 
    public static CreatorPostsEntity create(final String title, final String description, final String fileUrl) {

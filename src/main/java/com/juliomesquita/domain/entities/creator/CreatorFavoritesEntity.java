@@ -13,7 +13,7 @@ import java.util.Set;
 public class CreatorFavoritesEntity extends BaseEntityWithManualId {
 
    @MapsId
-   @OneToOne(mappedBy = "favorites")
+   @OneToOne
    @JoinColumn(name = "creator_id", referencedColumnName = "id")
    private CreatorAggregate creator;
 

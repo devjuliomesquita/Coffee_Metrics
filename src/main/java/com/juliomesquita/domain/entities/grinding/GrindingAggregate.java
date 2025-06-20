@@ -30,7 +30,7 @@ public class GrindingAggregate extends BaseEntityWithGeneratedId {
    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "grindings")
    private List<NotesEntity> notes;
 
-   @OneToMany(fetch = FetchType.LAZY)
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "grinding")
    private Set<CreatorFavoritesEntity> favorites;
 
 
