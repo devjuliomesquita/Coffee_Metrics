@@ -3,6 +3,8 @@ package com.juliomesquita.domain.entities.coffee;
 import com.juliomesquita.domain.commom.BaseEntityWithGeneratedId;
 import com.juliomesquita.domain.entities.recipe.NotesEntity;
 import com.juliomesquita.domain.enums.RoastingLevel;
+import com.juliomesquita.domain.exceptions.DomainExceptionContext;
+import com.juliomesquita.domain.exceptions.NotificationUtil;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -57,7 +59,8 @@ public class CoffeeAggregate extends BaseEntityWithGeneratedId {
       final var notes = new ArrayList<NotesEntity>();
 
       return new CoffeeAggregate(
-          name, species, sizeType, roastingLevel, roastingDate, points, sensory, null, null, notes);
+          name, species, sizeType, roastingLevel, roastingDate, points, sensory, null, null, notes)
+          .validate();
    }
 
    public CoffeeAggregate update(
@@ -72,23 +75,34 @@ public class CoffeeAggregate extends BaseEntityWithGeneratedId {
       this.points = points;
       this.sensory = sensory;
 
-      return this;
+      return this.validate();
    }
 
    public CoffeeAggregate addProducer(final String nameProducer, final String region, final Integer altitude) {
       this.producer = CoffeeProducerVO.create(nameProducer, region, altitude);
 
-      return this;
+      return this.validate();
    }
 
    public CoffeeAggregate addRoasting(final String name, final String region) {
       this.roasting = CoffeeRoastingEntity.create(name, region);
+      return this.validate();
+   }
+
+   private CoffeeAggregate validate(){
+      final var notification = new NotificationUtil();
+
+
+      if(!notification.isEmpty()){
+         throw new DomainExceptionContext(notification);
+      }
+
       return this;
    }
 
    public CoffeeAggregate bindToRoasting(final CoffeeRoastingEntity roasting) {
       this.roasting = roasting;
-      return this;
+      return this.validate();
    }
 
    public static CoffeeAggregate getInstanceOnlyId(final Long id) {

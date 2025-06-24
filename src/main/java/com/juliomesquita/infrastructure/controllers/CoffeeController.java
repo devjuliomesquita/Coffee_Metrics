@@ -12,11 +12,16 @@ import com.juliomesquita.application.usecases.coffee.create.CreateCoffeeUC;
 import com.juliomesquita.application.usecases.coffee.update.UpdateCoffeeInput;
 import com.juliomesquita.application.usecases.coffee.update.UpdateCoffeeUC;
 import com.juliomesquita.infrastructure.docs.CoffeeDoc;
-import com.juliomesquita.infrastructure.utils.ControllersUtils;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import static com.juliomesquita.infrastructure.utils.ControllersUtils.buildUri;
+
+
+//http://localhost:8080/q/swagger-ui
 @ApplicationScoped
 public class CoffeeController implements CoffeeDoc {
     private final CreateCoffeeUC createCoffeeUC;
@@ -25,10 +30,10 @@ public class CoffeeController implements CoffeeDoc {
     private final AddRoastingCoffeeUC addRoastingCoffeeUC;
 
     public CoffeeController(
-            final CreateCoffeeUC createCoffeeUC,
-            final UpdateCoffeeUC updateCoffeeUC,
-            final AddProducerCoffeeUC addProducerCoffeeUC,
-            final AddRoastingCoffeeUC addRoastingCoffeeUC
+        final CreateCoffeeUC createCoffeeUC,
+        final UpdateCoffeeUC updateCoffeeUC,
+        final AddProducerCoffeeUC addProducerCoffeeUC,
+        final AddRoastingCoffeeUC addRoastingCoffeeUC
     ) {
         this.createCoffeeUC = createCoffeeUC;
         this.updateCoffeeUC = updateCoffeeUC;
@@ -37,30 +42,30 @@ public class CoffeeController implements CoffeeDoc {
     }
 
     @Override
-    public Response create(final CreateCoffeeInput request, final UriInfo uriInfo) {
+    public Response create(@Valid final CreateCoffeeInput request, final UriInfo uriInfo) {
         final var response = this.createCoffeeUC.execute(request);
         return Response
-                .created(ControllersUtils.buildUri(uriInfo, response.coffeeResponse().id()))
-                .entity(response)
-                .build();
+            .created(buildUri(uriInfo, response.coffeeResponse().id()))
+            .entity(response)
+            .build();
     }
 
     @Override
-    public Response update(final Long id, final InfoCoffee request) {
+    public Response update(@NotNull final Long id, @Valid final InfoCoffee request) {
         final var aCommand = new UpdateCoffeeInput(id, request);
         final var response = this.updateCoffeeUC.execute(aCommand);
         return Response.ok(response).build();
     }
 
     @Override
-    public Response addProducer(final Long id, final InfoProducer request) {
+    public Response addProducer(@NotNull final Long id, @Valid final InfoProducer request) {
         final var aCommand = new AddProducerCoffeeInput(id, request);
         final var response = this.addProducerCoffeeUC.execute(aCommand);
         return Response.ok(response).build();
     }
 
     @Override
-    public Response addRoasting(final Long id, final RoastingResponse request) {
+    public Response addRoasting(@NotNull final Long id, @Valid final RoastingResponse request) {
         final var aCommand = new AddRoastingCoffeeInput(id, request);
         final var response = this.addRoastingCoffeeUC.execute(aCommand);
         return Response.ok(response).build();

@@ -1,4 +1,7 @@
 package com.juliomesquita.application.usecases.coffee.commom;
 
-public record InfoProducer(String nameProducer, String region, Integer altitude) {
+import jakarta.validation.constraints.Positive;
+
+public record InfoProducer(
+        String nameProducer, String region, @Positive Integer altitude) {
 }
