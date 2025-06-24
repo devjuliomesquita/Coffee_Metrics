@@ -86,6 +86,11 @@ public class CoffeeAggregate extends BaseEntityWithGeneratedId {
       return this;
    }
 
+   public CoffeeAggregate bindToRoasting(final CoffeeRoastingEntity roasting) {
+      this.roasting = roasting;
+      return this;
+   }
+
    public static CoffeeAggregate getInstanceOnlyId(final Long id) {
       return new CoffeeAggregate(id);
    }

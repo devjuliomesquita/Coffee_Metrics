@@ -1,4 +1,9 @@
 package com.juliomesquita.application.usecases.coffee.update;
 
-public record UpdateCoffeeInput() {
+import com.juliomesquita.application.usecases.coffee.commom.InfoCoffee;
+
+public record UpdateCoffeeInput(
+        Long coffeeId,
+        InfoCoffee infoCoffee
+) {
 }

@@ -1,4 +1,6 @@
 package com.juliomesquita.application.usecases.coffee.addroasting;
 
-public record AddRoastingCoffeeOutput() {
+import com.juliomesquita.application.usecases.coffee.commom.CoffeeResponse;
+
+public record AddRoastingCoffeeOutput(CoffeeResponse coffeeResponse) {
 }

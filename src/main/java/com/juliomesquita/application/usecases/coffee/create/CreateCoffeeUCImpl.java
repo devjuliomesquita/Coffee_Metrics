@@ -23,7 +23,8 @@ public class CreateCoffeeUCImpl extends CreateCoffeeUC {
         final var coffee = CoffeeAggregate
                 .create(
                         aCommand.infoCoffee().name(), aCommand.infoCoffee().species(), aCommand.infoCoffee().sizeType(),
-                        aCommand.infoCoffee().roastingLevel(), aCommand.infoCoffee().roastingDate(), aCommand.infoCoffee().points(), aCommand.infoCoffee().sensory())
+                        aCommand.infoCoffee().roastingLevel(), aCommand.infoCoffee().roastingDate(),
+                        aCommand.infoCoffee().points(), aCommand.infoCoffee().sensory())
                 .addProducer(aCommand.infoProducer().nameProducer(), aCommand.infoProducer().region(), aCommand.infoProducer().altitude())
                 .addRoasting(aCommand.infoRoasting().name(), aCommand.infoRoasting().region());
 
