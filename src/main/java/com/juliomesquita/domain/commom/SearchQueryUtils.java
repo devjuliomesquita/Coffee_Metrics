@@ -108,7 +108,6 @@ public final class SearchQueryUtils {
             if(operation.equals("cn")) {
                 whereClause.append(String.format("LOWER(%s) like LOWER(CONCAT('%%',:%s,'%%'))", keyWithoutIndex, key));
             } else {
-
                 whereClause.append(String.format("%s %s :%s", keyWithoutIndex, operation, key));
             }
 
