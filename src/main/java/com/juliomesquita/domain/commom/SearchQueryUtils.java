@@ -1,5 +1,7 @@
 package com.juliomesquita.domain.commom;
 
+import com.juliomesquita.domain.commom.params.MapParam;
+import com.juliomesquita.domain.commom.params.Param;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 
@@ -26,38 +28,103 @@ public final class SearchQueryUtils {
         return Page.of(page, perPage);
     }
 
-    public static Map<String, Object> buildParams(final SearchQuery query) {
+    public static MapParam buildParams(final SearchQuery query) {
         if (query.terms() == null || query.terms().isEmpty()) {
-            return new HashMap<>();
+            return MapParam.create();
         }
         final Map<String, Object> params = new HashMap<>();
+        final Map<String, String> operations = new HashMap<>();
+
         final String[] filters = query.terms().trim().split(",");
+
         Arrays.stream(filters).forEach(filter -> {
             final String[] keyValue = filter.trim().split("=");
-            if(keyValue.length == 1) {
+            if (keyValue.length == 1) {
                 params.put(keyValue[0], "");
             } else {
-                params.put(keyValue[0], keyValue[1]);
+                List<Param> paramList = splitValues(keyValue[0], keyValue[1]);
+                paramList.forEach(param -> {
+                    params.put(param.key(), param.value());
+                    operations.put(param.key(), param.operator());
+                });
             }
         });
 
-        return params;
+        return new MapParam(params, operations);
     }
 
-    public static StringBuilder buildQuery(final Map<String, Object> params) {
-        if (params.isEmpty()) {
+    private static List<Param> splitValues(final String key, final String value) {
+        final String[] parts = value.split("!OR!");
+        final var result = new ArrayList<Param>();
+
+        for (int i = 0; i < parts.length; i++) {
+            String val = parts[i];
+            String operator = "cn";
+
+            if (val.contains("!")) {
+                String[] valOp = val.split("!");
+                val = valOp[0];
+                operator = switch (valOp[1]) {
+                    case "GT" -> ">";
+                    case "GE" -> ">=";
+                    case "LT" -> "<";
+                    case "LE" -> "<=";
+                    case "NE" -> "!=";
+                    case "EQ" -> "=";
+                    default -> operator;
+                };
+            }
+
+            String paramKey = parts.length > 1 ? key + i : key;
+            result.add(new Param(paramKey, val, operator));
+        }
+
+        return result;
+    }
+
+    public static StringBuilder buildQuery(final MapParam mapParam) {
+        if (mapParam.params().isEmpty()) {
             return new StringBuilder();
         }
 
-        final var entries = new ArrayList<>(params.entrySet());
+        final var entries = new ArrayList<>(mapParam.params().entrySet());
 
         final StringBuilder whereClause = new StringBuilder();
         for (int i = 0; i < entries.size(); i++) {
             final String key = entries.get(i).getKey();
+            final String keyWithoutIndex = key.replaceAll("\\d+$", "");
+            final boolean notLastElement = i + 1 < entries.size();
+            final String previousKey = i > 0 ? entries.get(i - 1).getKey().replaceAll("\\d+$", "") : null;
+            final String nextKey = notLastElement ? entries.get(i + 1).getKey().replaceAll("\\d+$", "") : null;
+            final String operation = mapParam.operations().get(key);
 
-            whereClause.append(String.format("LOWER(%s) like LOWER(CONCAT('%%',:%s,'%%'))", key, key));
-            if (i + 1 < entries.size()) {
-                whereClause.append(" AND ");
+            if (notLastElement) {
+                if ((previousKey == null && nextKey.equalsIgnoreCase(keyWithoutIndex)) ||
+                    (previousKey != null && !previousKey.equalsIgnoreCase(keyWithoutIndex) && nextKey.equalsIgnoreCase(keyWithoutIndex))) {
+                    whereClause.append(" ( ");
+                }
+            }
+
+            if(operation.equals("cn")) {
+                whereClause.append(String.format("LOWER(%s) like LOWER(CONCAT('%%',:%s,'%%'))", keyWithoutIndex, key));
+            } else {
+
+                whereClause.append(String.format("%s %s :%s", keyWithoutIndex, operation, key));
+            }
+
+            if (notLastElement) {
+                if (nextKey.equalsIgnoreCase(keyWithoutIndex)) {
+                    whereClause.append(" OR ");
+                } else {
+                    if (previousKey != null && previousKey.equalsIgnoreCase(keyWithoutIndex)) {
+                        whereClause.append(" ) ");
+                    }
+                    whereClause.append(" AND ");
+                }
+            } else {
+                if (previousKey != null && previousKey.equalsIgnoreCase(keyWithoutIndex)) {
+                    whereClause.append(" ) ");
+                }
             }
         }
 

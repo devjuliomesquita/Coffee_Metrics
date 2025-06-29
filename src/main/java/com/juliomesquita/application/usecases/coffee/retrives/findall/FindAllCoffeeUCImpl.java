@@ -11,7 +11,6 @@ import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Map;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -24,13 +23,13 @@ public class FindAllCoffeeUCImpl extends FindAllCoffeeUC {
 
     @Override
     public Pagination<CoffeeResponse> execute(final SearchQuery aCommand) {
-        final Map<String, Object> params = SearchQueryUtils.buildParams(aCommand);
+        final var params = SearchQueryUtils.buildParams(aCommand);
         final StringBuilder query = SearchQueryUtils.buildQuery(params);
         final Sort sort = SearchQueryUtils.buildSort(aCommand);
         final Page page = SearchQueryUtils.buildPage(aCommand);
 
         final PanacheQuery<CoffeeAggregate> coffeeQuery = this.repository
-            .find(query.toString(), sort, params)
+            .find(query.toString(), sort, params.params())
             .page(page);
         System.out.println("coffeeQuery = " + coffeeQuery.list());
         System.out.println("coffeeQuery = " + coffeeQuery.count());
