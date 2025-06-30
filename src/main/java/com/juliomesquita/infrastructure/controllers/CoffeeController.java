@@ -19,6 +19,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import java.util.Objects;
+
 import static com.juliomesquita.infrastructure.utils.ControllersUtils.buildUri;
 
 
@@ -32,13 +34,20 @@ public class CoffeeController implements CoffeeDoc {
     private final FindCoffeeByIdUC findCoffeeByIdUC;
     private final FindAllCoffeeUC findAllCoffeeUC;
 
-    public CoffeeController(CreateCoffeeUC createCoffeeUC, UpdateCoffeeUC updateCoffeeUC, AddProducerCoffeeUC addProducerCoffeeUC, AddRoastingCoffeeUC addRoastingCoffeeUC, FindCoffeeByIdUC findCoffeeByIdUC, FindAllCoffeeUC findAllCoffeeUC) {
-        this.createCoffeeUC = createCoffeeUC;
-        this.updateCoffeeUC = updateCoffeeUC;
-        this.addProducerCoffeeUC = addProducerCoffeeUC;
-        this.addRoastingCoffeeUC = addRoastingCoffeeUC;
-        this.findCoffeeByIdUC = findCoffeeByIdUC;
-        this.findAllCoffeeUC = findAllCoffeeUC;
+    public CoffeeController(
+        final CreateCoffeeUC createCoffeeUC,
+        final UpdateCoffeeUC updateCoffeeUC,
+        final AddProducerCoffeeUC addProducerCoffeeUC,
+        final AddRoastingCoffeeUC addRoastingCoffeeUC,
+        final FindCoffeeByIdUC findCoffeeByIdUC,
+        final FindAllCoffeeUC findAllCoffeeUC
+    ) {
+        this.createCoffeeUC = Objects.requireNonNull(createCoffeeUC);
+        this.updateCoffeeUC = Objects.requireNonNull(updateCoffeeUC);
+        this.addProducerCoffeeUC = Objects.requireNonNull(addProducerCoffeeUC);
+        this.addRoastingCoffeeUC = Objects.requireNonNull(addRoastingCoffeeUC);
+        this.findCoffeeByIdUC = Objects.requireNonNull(findCoffeeByIdUC);
+        this.findAllCoffeeUC = Objects.requireNonNull(findAllCoffeeUC);
     }
 
     @Override

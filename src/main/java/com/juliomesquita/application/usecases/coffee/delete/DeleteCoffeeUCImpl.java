@@ -21,6 +21,7 @@ public class DeleteCoffeeUCImpl extends DeleteCoffeeUC {
         final var coffee = this.repository
                 .findByIdOptional(aCommand)
                 .orElseThrow(() -> new RuntimeException("coffee id not found"));
+
         final var response = CoffeeResponse.with(coffee);
         this.repository.deleteById(coffee.getId());
         return new DeleteCoffeeOutput(response);

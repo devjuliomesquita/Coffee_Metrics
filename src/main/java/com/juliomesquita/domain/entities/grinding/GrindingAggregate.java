@@ -48,6 +48,11 @@ public class GrindingAggregate extends BaseEntityWithGeneratedId {
       return this;
    }
 
+   public GrindingAggregate addConfig(final GrindingConfigEntity interval) {
+      this.interval = interval;
+      return this;
+   }
+
    public static GrindingAggregate getInstanceOnlyId(final Long id) {
       return new GrindingAggregate(id);
    }
