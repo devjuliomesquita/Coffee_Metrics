@@ -10,43 +10,48 @@ import java.util.Set;
 @Table(name = "tb_category")
 public class CategoryEntity extends BaseEntityWithGeneratedId {
 
-   @Column(name = "description", nullable = false)
-   private String description;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   private Set<SubcategoryEntity> subCategories;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<SubcategoryEntity> subCategories;
 
-   public static CategoryEntity create(final String description) {
-      final var subcategory = new HashSet<SubcategoryEntity>();
-      return new CategoryEntity(description, subcategory);
-   }
+    public static CategoryEntity create(final String description) {
+        final var subcategory = new HashSet<SubcategoryEntity>();
+        return new CategoryEntity(description, subcategory);
+    }
 
-   public CategoryEntity update(final String description) {
-      this.description = description;
-      return this;
-   }
+    public CategoryEntity update(final String description) {
+        this.description = description;
+        return this;
+    }
 
-   public static CategoryEntity getInstanceOnlyId(final Long id){
-      return new CategoryEntity(id);
-   }
+    public CategoryEntity addSubcategory(final SubcategoryEntity subcategory) {
+        this.subCategories.add(subcategory);
+        return this;
+    }
 
-   private CategoryEntity(final String description, final Set<SubcategoryEntity> subCategories) {
-      this.description = description;
-      this.subCategories = subCategories;
-   }
+    public static CategoryEntity getInstanceOnlyId(final Long id) {
+        return new CategoryEntity(id);
+    }
 
-   private CategoryEntity(final Long id) {
-      this.id = id;
-   }
+    private CategoryEntity(final String description, final Set<SubcategoryEntity> subCategories) {
+        this.description = description;
+        this.subCategories = subCategories;
+    }
 
-   protected CategoryEntity() {
-   }
+    private CategoryEntity(final Long id) {
+        this.id = id;
+    }
 
-   public String getDescription() {
-      return description;
-   }
+    protected CategoryEntity() {
+    }
 
-   public Set<SubcategoryEntity> getSubCategories() {
-      return subCategories;
-   }
+    public String getDescription() {
+        return description;
+    }
+
+    public Set<SubcategoryEntity> getSubCategories() {
+        return subCategories;
+    }
 }
